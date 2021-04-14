@@ -134,14 +134,12 @@ public class CalculatorTest {
 		}
 
 
-
-		//evaluation, stack 수업자료의 postfix 계산 코드를 이용하여 일부 변형하였음.
 		Stack<Long> s = new Stack<>();
 		long A,B;
 		digitprev=false;
 		for (int i = 0; i < p.length(); i++) {
-			char ch = p.charAt(i); // postfix의 번 문자. 번호는 0번부터.
-			if (Character.isDigit(ch)) { // ch가 숫자
+			char ch = p.charAt(i);
+			if (Character.isDigit(ch)) {
 				if (digitprev == true) {
 					long tmp = s.pop();
 					tmp = 10 * tmp + (long)(ch - '0');
@@ -149,7 +147,7 @@ public class CalculatorTest {
 				} else s.push((long)ch - '0');
 				digitprev = true;
 
-			} else if (isOperator(ch)) { // ch가 연산자
+			} else if (isOperator(ch)) {
 				if(ch=='~') {
 					A=s.pop();
 					long val=operation(A,ch);
@@ -166,7 +164,7 @@ public class CalculatorTest {
 					s.push(val);
 					digitprev = false;
 				}
-			} else digitprev = false; // ch가 공백
+			} else digitprev = false;
 		}
 
 		if(bracket!=0||s.isEmpty()){
@@ -179,7 +177,7 @@ public class CalculatorTest {
 
 
 	}
-	//stack 수업자료의 postfix 계산 코드를 이용하여 일부 변형하였음.
+
 	private static long operation(long a, long b, char ch){
 		long val=0;
 		switch(ch){
@@ -200,4 +198,3 @@ public class CalculatorTest {
 		return ch=='+'||ch=='-'||ch=='*'||ch=='/'||ch=='%'||ch=='^'||ch=='~';
 	}
 }
-//stack 수업자료의 postfix 계산 코드를 이용하여 일부 변형하였음.
