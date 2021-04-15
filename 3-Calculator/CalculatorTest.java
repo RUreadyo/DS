@@ -133,7 +133,7 @@ public class CalculatorTest {
 			}
 		}
 
-
+		//evaluation of the postfix expression. Slight modified code from Lecture note "STACK"
 		Stack<Long> s = new Stack<>();
 		long A,B;
 		digitprev=false;
@@ -148,11 +148,13 @@ public class CalculatorTest {
 				digitprev = true;
 
 			} else if (isOperator(ch)) {
+				//when unary '-'
 				if(ch=='~') {
 					A=s.pop();
 					long val=operation(A,ch);
 					s.push(val);
 				}
+				//other oprators
 				else {
 					A = s.pop();
 					B = s.pop();
@@ -190,6 +192,7 @@ public class CalculatorTest {
 		}
 		return val;
 	}
+	//for unary '-' operator
 	private static long operation(long a, char ch){
 		if(ch=='~') return -a;
 		return 0;
@@ -198,3 +201,4 @@ public class CalculatorTest {
 		return ch=='+'||ch=='-'||ch=='*'||ch=='/'||ch=='%'||ch=='^'||ch=='~';
 	}
 }
+	//evaluation of the postfix expression. Slight modified code from Lecture note "STACK"
