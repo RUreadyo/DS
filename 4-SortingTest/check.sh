@@ -2,7 +2,7 @@
 echo "-compile start-"
 
 # Compile
-javac SortingTest.java
+javac SortingTest.java -encoding UTF-8
 
 mkdir -p my_output
 
