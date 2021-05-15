@@ -59,10 +59,10 @@ public class SortingTest
                         newvalue = DoHeapSort(newvalue);
                         break;
                     case 'M':	// Merge Sort
-                        newvalue = DoMergeSort(newvalue,0,newvalue.length-1);
+                        newvalue = DoMergeSort(newvalue);
                         break;
                     case 'Q':	// Quick Sort
-                        newvalue = DoQuickSort(newvalue,0,newvalue.length-1);
+                        newvalue = DoQuickSort(newvalue);
                         break;
                     case 'R':	// Radix Sort
                         newvalue = DoRadixSort(newvalue);
@@ -95,6 +95,7 @@ public class SortingTest
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //강의자료 참고하였음.
     private static int[] DoBubbleSort(int[] value)
     {
         // TODO : Bubble Sort 를 구현하라.
@@ -115,6 +116,7 @@ public class SortingTest
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //강의자료 참고하였음.
     private static int[] DoInsertionSort(int[] value)
     {
         for(int i=1;i<value.length;i++){
@@ -130,6 +132,7 @@ public class SortingTest
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //강의자료 참고하였음.
     private static int[] DoHeapSort(int[] value)
     {
         // TODO : Heap Sort 를 구현하라.
@@ -140,7 +143,7 @@ public class SortingTest
 
         return (value);
     }
-    //강의자료참고하였음.
+
     private static void percolateDown(int [] A, int i,int size){
     int child=2*i+1;
     int right=2*i+2;
@@ -167,41 +170,48 @@ public class SortingTest
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //강의자료 참고하였음
-    private static int[] DoMergeSort(int[] value,int p,int r)
+    //강의자료+중간시험문제 참고하였음
+    private static int[] DoMergeSort(int[] value){
+        int[] newclone = (int[])value.clone();
+        return MergeSort(newclone,value,0,value.length-1);
+    }
+
+    private static int[] MergeSort(int[] newclone,int[] value,int p,int r)
     {
+        //newclone에 있는 것을 정렬하여 value에 넣음
         // TODO : Merge Sort 를 구현하라.
         if(r>p){
             int q=(int)((p+r)/2);
-            DoMergeSort(value,p,q);
-            DoMergeSort(value,q+1,r);
-            merge(value,p,q,r);
+            MergeSort(value,newclone,p,q);
+            MergeSort(value,newclone,q+1,r);
+            merge(newclone,value,p,q,r);
         }
         return (value);
     }
-
-    private static void merge(int[] value,int p, int q, int r){
-        int i=p, j=q+1, t=0;
-        int [] tmp=new int[r-p+1];
+    //newclone에 있는거 merge하여 value에 넣음
+    private static void merge(int[] newclone, int[] value,int p, int q, int r){
+        int i=p, j=q+1, t=p;
         while(i<=q && j<=r){
-            if(value[i]<=value[j]) tmp[t++]=value[i++];
-            else tmp[t++]=value[j++];
+            if(value[i]<=value[j]) value[t++]=newclone[i++];
+            else value[t++]=newclone[j++];
         }
-        while(i<=q) tmp[t++]=value[i++];
-        while(j<=r) tmp[t++]=value[j++];
-        i=p;
-        t=0;
-        while(i<=r) value[i++]=tmp[t++];
+        while(i<=q) value[t++]=newclone[i++];
+        while(j<=r) value[t++]=newclone[j++];
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     //강의자료 참고하였음.
-    private static int[] DoQuickSort(int[] value,int p,int r)
+    private static int[] DoQuickSort(int[] value){
+        return QuickSort(value,0,value.length-1);
+    }
+
+
+    private static int[] QuickSort(int[] value,int p,int r)
     {
         // TODO : Quick Sort 를 구현하라.
         int q=partition(value,p,r);
-        if(q>p) DoQuickSort(value,p,q-1);
-        if(q<r) DoQuickSort(value,q+1,r);
+        if(q>p) QuickSort(value,p,q-1);
+        if(q<r) QuickSort(value,q+1,r);
         return (value);
     }
 
@@ -223,9 +233,11 @@ public class SortingTest
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //강의자료 참고하였음.
     private static int[] DoRadixSort(int[] value)
     {
         // TODO : Radix Sort 를 구현하라.
-        return (value);
+
+        return DoQuickSort(value);
     }
 }
