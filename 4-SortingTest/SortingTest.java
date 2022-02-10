@@ -1,4 +1,4 @@
-import java.io.*;
+    import java.io.*;
 import java.util.*;
 
 public class SortingTest
@@ -173,10 +173,11 @@ public class SortingTest
     //강의자료+중간시험문제 참고하였음
     private static int[] DoMergeSort(int[] value){
         int[] newclone = (int[])value.clone();
-        return MergeSort(newclone,value,0,value.length-1);
+        MergeSort(newclone,value,0,value.length-1);
+        return value;
     }
 
-    private static int[] MergeSort(int[] newclone,int[] value,int p,int r)
+    private static void MergeSort(int[] newclone,int[] value,int p,int r)
     {
         //newclone에 있는 것을 정렬하여 value에 넣음
         // TODO : Merge Sort 를 구현하라.
@@ -186,13 +187,13 @@ public class SortingTest
             MergeSort(value,newclone,q+1,r);
             merge(newclone,value,p,q,r);
         }
-        return (value);
+        else return;
     }
     //newclone에 있는거 merge하여 value에 넣음
     private static void merge(int[] newclone, int[] value,int p, int q, int r){
         int i=p, j=q+1, t=p;
         while(i<=q && j<=r){
-            if(value[i]<=value[j]) value[t++]=newclone[i++];
+            if(newclone[i]<=newclone[j]) value[t++]=newclone[i++];
             else value[t++]=newclone[j++];
         }
         while(i<=q) value[t++]=newclone[i++];
@@ -237,7 +238,42 @@ public class SortingTest
     private static int[] DoRadixSort(int[] value)
     {
         // TODO : Radix Sort 를 구현하라.
+        int abs=MaxAbs(value);
+        for(int j=1;j<=abs;j*=10){
+            CountSort(value,j);
+        }
+        return value;
+    }
+    //absmax 값 계산해주는 함수
+    private static int MaxAbs(int[] value){
+        int abs=0, cnt=0;
+        for(int i=0;i<value.length;i++){
+            if(value[i]>0&&value[i]>abs) abs=value[i];
+            else if(value[i]<0&&-value[i]>abs) abs=(-value[i]);
+        }
+        return abs;
+    }
+    //countsort를 이용해 자리수 별로 정렬, stable sort를 위해 각 자리수의 범위가 -9~9로 둠.
+    private static void CountSort(int[] value,int digit){
+        int[] result=new int[value.length];
+        int[] count=new int[19];
+        for(int i=0;i<count.length;i++) count[i]=0;
 
-        return DoQuickSort(value);
+        for(int i=0;i<value.length;i++){
+            count[(value[i]/digit)%10+9]++;
+        }
+
+        for(int i=1;i<count.length;i++) count[i]=count[i]+count[i-1];
+
+        for(int i=value.length-1;i>=0;i--){
+            result[count[(value[i]/digit)%10+9]-1]=value[i];
+            count[(value[i]/digit)%10+9]--;
+        }
+
+        for(int i=0;i<value.length;i++){
+            value[i]=result[i];
+        }
+
+
     }
 }
